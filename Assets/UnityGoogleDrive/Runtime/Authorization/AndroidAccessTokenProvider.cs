@@ -134,6 +134,7 @@ namespace UnityGoogleDrive
             intent.Call<AndroidJavaObject>("putExtra", "authorizationEndpoint", ToJavaObject(settings.UriSchemeClientCredentials.AuthUri));
             intent.Call<AndroidJavaObject>("putExtra", "tokenEndpoint", ToJavaObject(settings.UriSchemeClientCredentials.TokenUri));
             intent.Call<AndroidJavaObject>("putExtra", "clientId", ToJavaObject(settings.UriSchemeClientCredentials.ClientId));
+            intent.Call<AndroidJavaObject>("putExtra", "clientSecret", ToJavaObject(settings.UriSchemeClientCredentials.ClientSecret));
             intent.Call<AndroidJavaObject>("putExtra", "redirectEndpoint", ToJavaObject(redirectEndpoint));
             intent.Call<AndroidJavaObject>("putExtra", "scope", ToJavaObject(settings.AccessScope));
             applicationActivity.Call("startActivity", intent);

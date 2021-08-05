@@ -16,6 +16,13 @@ extern "C" UIViewController* UnityGetGLViewController();
    redirectEndpoint:(NSURL*)redirectEndpoint
               scope:(NSString*)scope;
 
+- (void)performAuthWithSecret:(NSURL*)authorizationEndpoint
+      tokenEndpoint:(NSURL*)tokenEndpoint
+           clientId:(NSString*)clientId
+       clientSecret:(NSString*)clientSecret
+   redirectEndpoint:(NSURL*)redirectEndpoint
+              scope:(NSString*)scope;
+
 @end
 
 @implementation UnityGoogleDriveIOS
@@ -38,6 +45,23 @@ OIDAuthorizationService* service;
            clientId:(NSString*)clientId
    redirectEndpoint:(NSURL*)redirectEndpoint
               scope:(NSString*)scope {
+
+    [UnityGoogleDriveIOS.instance
+     performAuthWithSecret:authorizationEndpoint
+     tokenEndpoint:tokenEndpoint
+     clientId:clientId
+     clientSecret:clientSecret
+     redirectEndpoint:redirectEndpoint
+     scope:scope];              
+
+}
+
+- (void)performAuthWithSecret:(NSURL*)authorizationEndpoint
+      tokenEndpoint:(NSURL*)tokenEndpoint
+           clientId:(NSString*)clientId
+           clientSecret:(NSString*)clientSecret
+   redirectEndpoint:(NSURL*)redirectEndpoint
+              scope:(NSString*)scope {
     
     OIDServiceConfiguration* configuration = [[OIDServiceConfiguration alloc]
                                               initWithAuthorizationEndpoint:authorizationEndpoint
@@ -46,6 +70,7 @@ OIDAuthorizationService* service;
     OIDAuthorizationRequest* request = [[OIDAuthorizationRequest alloc]
                                         initWithConfiguration:configuration
                                         clientId:clientId
+                                        clientSecret:clientSecret
                                         scopes:[scope componentsSeparatedByString:@" "]
                                         redirectURL:redirectEndpoint
                                         responseType:OIDResponseTypeCode
@@ -72,6 +97,9 @@ OIDAuthorizationService* service;
 
 extern "C" {
     void _UnityGoogleDriveIOS_PerformAuth(const char* authorizationEndpoint, const char* tokenEndpoint, const char* clientId, const char* redirectEndpoint, const char* scope);
+
+    void _UnityGoogleDriveIOS_PerformAuthWithSecret(const char* authorizationEndpoint, const char* tokenEndpoint, const char* clientId, const char* clientSecret, const char* redirectEndpoint, const char* scope);
+
 }
 
 void _UnityGoogleDriveIOS_PerformAuth(const char* authorizationEndpoint, const char* tokenEndpoint, const char* clientId, const char* redirectEndpoint, const char* scope)
@@ -80,6 +108,17 @@ void _UnityGoogleDriveIOS_PerformAuth(const char* authorizationEndpoint, const c
      performAuth:[NSURL URLWithString:[[NSString stringWithUTF8String:authorizationEndpoint]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
      tokenEndpoint:[NSURL URLWithString:[[NSString stringWithUTF8String:tokenEndpoint]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
      clientId:[NSString stringWithUTF8String:clientId]
+     redirectEndpoint:[NSURL URLWithString:[[NSString stringWithUTF8String:redirectEndpoint]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
+     scope:[NSString stringWithUTF8String:scope]];
+}
+
+void _UnityGoogleDriveIOS_PerformAuthWithSecret(const char* authorizationEndpoint, const char* tokenEndpoint, const char* clientId, const char* clientSecret, const char* redirectEndpoint, const char* scope)
+{
+    [UnityGoogleDriveIOS.instance
+     performAuthWithSecret:[NSURL URLWithString:[[NSString stringWithUTF8String:authorizationEndpoint]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
+     tokenEndpoint:[NSURL URLWithString:[[NSString stringWithUTF8String:tokenEndpoint]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
+     clientId:[NSString stringWithUTF8String:clientId]
+     clientSecret:[NSString stringWithUTF8String:clientSecret]
      redirectEndpoint:[NSURL URLWithString:[[NSString stringWithUTF8String:redirectEndpoint]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
      scope:[NSString stringWithUTF8String:scope]];
 }

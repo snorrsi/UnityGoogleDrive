@@ -11,7 +11,7 @@ namespace UnityGoogleDrive
         public string AuthUri => authUri;
         public string TokenUri => tokenUri;
         public string ClientId => clientId;
-        public string ClientSecret => null; // Client secret is not required in custom URI scheme.
+        public string ClientSecret => clientSecret;
         public string ReversedClientId => reversedClientId;
         public string PlistVersion => plistVersion;
         public string BundleId => bundleId;
@@ -19,6 +19,8 @@ namespace UnityGoogleDrive
         [SerializeField] private string authUri = "https://accounts.google.com/o/oauth2/v2/auth";
         [SerializeField] private string tokenUri = "https://accounts.google.com/o/oauth2/token";
         [SerializeField] private string clientId = null;
+        [SerializeField] private string clientSecret = null;
+
         [SerializeField] private string reversedClientId = null;
         [SerializeField] private string plistVersion = null;
         [SerializeField] private string bundleId = null;

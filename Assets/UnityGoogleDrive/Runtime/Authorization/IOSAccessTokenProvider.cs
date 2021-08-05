@@ -106,12 +106,22 @@ namespace UnityGoogleDrive
             responseMessageHandler.OnResponse += HandleAuthorizationResponse;
 
             #if UNITY_IOS
+/*
             _UnityGoogleDriveIOS_PerformAuth( 
                 settings.UriSchemeClientCredentials.AuthUri, 
                 settings.UriSchemeClientCredentials.TokenUri, 
                 settings.UriSchemeClientCredentials.ClientId,
                 Application.identifier.ToLowerInvariant() + ":/oauth2callback", 
                 settings.AccessScope);
+*/                
+            _UnityGoogleDriveIOS_PerformAuthWithSecret( 
+                settings.UriSchemeClientCredentials.AuthUri, 
+                settings.UriSchemeClientCredentials.TokenUri, 
+                settings.UriSchemeClientCredentials.ClientId,
+                settings.UriSchemeClientCredentials.ClientSecret,
+                Application.identifier.ToLowerInvariant() + ":/oauth2callback", 
+                settings.AccessScope);
+    
             #endif
         }
 
@@ -140,6 +150,9 @@ namespace UnityGoogleDrive
         #if UNITY_IOS
         [DllImport("__Internal")]
         extern static private void _UnityGoogleDriveIOS_PerformAuth (string authorizationEndpoint, string tokenEndpoint, string clientId, string redirectEndpoint, string scope);
+
+        [DllImport("__Internal")]
+        extern static private void _UnityGoogleDriveIOS_PerformAuthWithSecret (string authorizationEndpoint, string tokenEndpoint, string clientId, string clientSecret, string redirectEndpoint, string scope);
         #endif
     }
 }
