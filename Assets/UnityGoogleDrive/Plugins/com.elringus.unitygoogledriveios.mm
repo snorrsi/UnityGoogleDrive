@@ -50,7 +50,7 @@ OIDAuthorizationService* service;
      performAuthWithSecret:authorizationEndpoint
      tokenEndpoint:tokenEndpoint
      clientId:clientId
-     clientSecret:clientSecret
+     clientSecret:nil
      redirectEndpoint:redirectEndpoint
      scope:scope];              
 
